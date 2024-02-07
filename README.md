@@ -20,7 +20,7 @@ Supports zooming/panning, node dragging and node/link hover/click interactions.
 ## Examples
 
 * [Basic](https://vasturiano.github.io/react-force-graph/example/basic/) ([source](https://github.com/vasturiano/react-force-graph/blob/master/example/basic/index.html))
-* [Test Graph](https://github.com/EmmaNeillie/react-force-graph/example/Custom%20Graph%20Emma/) ([source](https://github.com/EmmaNeillie/react-force-graph/blob/master/example/Custom%20Graph%20Emma/index.html))
+* [Test Graph](https://EmmaNeillie.github.io/react-force-graph/example/Custom%20Graph%20Emma/) ([source](https://github.com/EmmaNeillie/react-force-graph/blob/master/example/Custom%20Graph%20Emma/index.html))
 * [Directional arrows](https://vasturiano.github.io/react-force-graph/example/directional-links-arrows/) ([source](https://github.com/vasturiano/react-force-graph/blob/master/example/directional-links-arrows/index.html))
 * [Directional moving particles](https://vasturiano.github.io/react-force-graph/example/directional-links-particles/) ([source](https://github.com/vasturiano/react-force-graph/blob/master/example/directional-links-particles/index.html))
 * [Auto-colored nodes/links](https://vasturiano.github.io/react-force-graph/example/auto-colored/) ([source](https://github.com/vasturiano/react-force-graph/blob/master/example/auto-colored/index.html))
