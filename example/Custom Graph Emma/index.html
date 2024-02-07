@@ -1,0 +1,101 @@
+<head>
+    <style> body { margin: 0; } </style>
+  
+    <script src="//unpkg.com/react/umd/react.production.min.js"></script>
+    <script src="//unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
+    <script src="//unpkg.com/@babel/standalone"></script>
+  
+    <script src="//unpkg.com/react-force-graph-2d"></script>
+    <!--<script src="../../src/packages/react-force-graph-2d/dist/react-force-graph-2d.js"></script>-->
+  
+    <script src="../datasets/miserables.json"></script>
+  </head>
+  
+  <body>
+    <div id="graph"></div>
+  
+    <script type="text/jsx">
+      fetch('data.json').then(res => res.json()).then(data => {
+
+        ReactDOM.render(
+            <ForceGraph2D
+            graphData={data}
+
+            nodeAutoColorBy="group"
+            nodeCanvasObject={(node, ctx, globalScale) => {
+                const label = node.id;
+                const fontSize = 12/globalScale;
+                const padding = fontSize * 0.2;
+                const textWidth = ctx.measureText(label).width;
+                const shapeWidth = textWidth + padding * 2;
+                const shapeHeight = fontSize + padding * 2;
+                
+                let shapeFunction;
+                let shapeColor;
+
+                switch (node.type) {
+                    case "input":
+                        shapeFunction = () => {
+                            shapeColour = 'red';
+                            ctx.fillStyle = shapeColour;
+                            ctx.beginPath();
+                            ctx.arc(node.x, node.y, Math.max(shapeWidth, shapeHeight) / 2, 0, 2 * Math.PI);
+                            ctx.fill();
+                        };
+                        break;
+                    case "operation":
+                        shapeFunction = () => {
+                            shapeColour = 'blue';
+                            ctx.fillStyle = shapeColour;
+                            ctx.fillRect(node.x - shapeWidth / 2, node.y - shapeHeight / 2, shapeWidth, shapeHeight);
+                        };
+                        break;
+                    case "output":
+                        shapeFunction = () => {
+                            shapeColour = 'purple';
+                            const sideLength = Math.max(shapeWidth, shapeHeight) / 2;
+                            ctx.fillStyle = shapeColor;
+                            ctx.beginPath();
+                            for (let i = 0; i < 6; i++) {
+                            const angle = (2 * Math.PI / 6) * i;
+                            const x = node.x + sideLength * Math.cos(angle);
+                            const y = node.y + sideLength * Math.sin(angle);
+                            if (i === 0) {
+                                ctx.moveTo(x, y);
+                            } else {
+                                ctx.lineTo(x, y);
+                            }
+                            }
+                            ctx.closePath();
+                            ctx.fill();
+
+                        };
+                        break;
+                    default:
+                        shapeFunction = () => {
+                            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                            ctx.fillRect(node.x - shapeWidth / 2, node.y - shapeHeight/2, shapeWidth, shapeHeight);
+                        };
+                        break;
+                }
+
+                shapeFunction();
+
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = node.color;
+                ctx.fillText(label, node.x, node.y);
+
+            }}
+            nodePointerAreaPaint={(node, color, ctx) => {
+                ctx.fillStyle = color;
+                const bckgDimensions = node.__bckgDimensions;
+                bckgDimensions && ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
+            }}
+            />,
+            document.getElementById('graph')
+
+        );
+      });
+    </script>
+  </body>
